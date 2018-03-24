@@ -34,7 +34,7 @@ wep:
 	sleep 2s
 	make stopNetworkMan
 	make startTerm1
-	echo "make wepCleanup when ready\n"
+	echo "make cleanup when ready\n"
 
 
 #wep stuff
@@ -49,11 +49,6 @@ arpRelay:
 	done while(error)
 crack:
 	sudo aircrack-ng -b $bssid output*.cap
-wepCleanup:
-	sudo airmon-ng stop mon0
-	sudo rm output*
-	sudo rm replay*
-	sudo NetworkManager
 
 
 #main wpa 
@@ -76,7 +71,7 @@ wpa:
 	sleep 2s
 	make stopNetworkMan
 	make startTerm1
-	echo "make wepCleanup when ready\n"
+	echo "make cleanup when ready\n"
 #wpa stuff
 wpaCrack:
 	sudo aircrack-ng -w words.txt -b $bssid output*.cap
@@ -103,3 +98,9 @@ wanScan:
 stopNetworkMan:
 	sudo /etc/init.d/network-manager stop
 	sudo ifconfig $int down
+#post-crack cleanup	
+cleanup:
+	sudo airmon-ng stop mon0
+	sudo rm output*
+	sudo rm replay*
+	sudo NetworkManager
