@@ -1,0 +1,2 @@
+-Still need to grab variables from grep using regex parsing
+-Still need to test everything after that
