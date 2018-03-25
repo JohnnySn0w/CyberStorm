@@ -1,2 +1,3 @@
--Still need to grab variables from grep using regex parsing
+-need to figure out a way to dynamically get the right AP variables set 
+  -probably just pass in the ssid since we'll know that and then use that to regex the rest?
 -Still need to test everything after that
