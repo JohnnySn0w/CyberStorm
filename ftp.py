@@ -8,7 +8,7 @@
 # Objective: 
 ######################################################
 # this can either all be in one main function, or have one main and separate functions
-import ftplib, os, binascii
+import ftplib, os
 # things that need to get done:
 ##################################################################################
 # fetch file listing, permissions from FTP --> done
@@ -44,7 +44,7 @@ f = open("directory.txt", "r")
 g = open("holder.txt", "w+") #identical file for now, but it will hold the parts of directory.txt that we actually need
 if f.mode == "r":
 	for line in f:
-		g.write(line[1:11] + "\n")
+		g.write(line[1:10] + "\n") # changed up here so that the program ignores the space at the end of each line
 g.close()
 f.close()
 
@@ -54,21 +54,24 @@ h = open("numbers.txt", "w+")
 if g.mode == "r":
 	for line in g:
 		l = list(line)
+		print l
 		for i in l:
 			if (i == "r" or i == "w" or i == "x"):
 				h.write("1")
-			else:
+			elif (i == "-"):
 				h.write("0")
+			else:
+				pass
 g.close()
 h.close()
 #################################################################################
 # decode file permissions with binary decoder
-# still needs work - not returning correctly
+# still needs work - not returning correctly. However, it does count 90 total characters and ignores \n, so
+# it's getting somewhere
 h = open("numbers.txt", "r")
 if h.mode == "r":
-	l = h.readline()
-	print l
-	print (len(l))
+	n = h.read()
+	print(len(n))
 h.close()
 #################################################################################
 # send decoded message to output
