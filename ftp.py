@@ -63,11 +63,11 @@ g.close()
 h.close()
 #################################################################################
 # decode file permissions with binary decoder
-# still needs work - not returning correctly
+# still needs work - not returning correctly with stuff I tried. Take a stab at it.
 h = open("numbers.txt", "r")
 if h.mode == "r":
 	l = h.readline()
-	print ''.join([chr(int(c,base=2)) for c in l])
+	print l
 h.close()
 #################################################################################
 # send decoded message to output
