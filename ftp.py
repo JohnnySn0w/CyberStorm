@@ -54,7 +54,7 @@ h = open("numbers.txt", "w+")
 if g.mode == "r":
 	for line in g:
 		l = list(line)
-		print l
+		print l # this is just to check to see what got captured by holder.txt
 		for i in l:
 			if (i == "r" or i == "w" or i == "x"):
 				h.write("1")
@@ -71,7 +71,8 @@ h.close()
 h = open("numbers.txt", "r")
 if h.mode == "r":
 	n = h.read()
-	print(len(n))
+	print n
+	print(len(n)) # more checking. 90 total 0's and 1's
 h.close()
 #################################################################################
 # send decoded message to output
