@@ -7,7 +7,6 @@
 # Program: ftp.py
 # Objective: 
 ######################################################
-# this can either all be in one main function, or have one main and separate functions
 import ftplib, os
 # things that need to get done:
 ##################################################################################
@@ -36,15 +35,13 @@ for line in data:
 f.close() # always remember close() after using open. Needs to be done whenever modes are switched or you're done
 		  # with a file.
 # get it to export to a .txt file instead of outputting to the command line --> done
-#################################################################################
-# use a function so that when it reads string lines in the .txt file, it only counts [1:11] 
-# onward (so like [1:11] or something), with the first three bits of each getting ignored 
-# along with the rest of the string. then have an if/else statement that turns - into 0 and rwx into 1's --> done
+################################################################################# 
+# Read a certain segment of the string, then have an if/else statement that turns - into 0 and rwx into 1's --> done
 f = open("directory.txt", "r")
 g = open("holder.txt", "w+") #identical file for now, but it will hold the parts of directory.txt that we actually need
 if f.mode == "r":
 	for line in f:
-		g.write(line[1:10] + "\n") # changed up here so that the program ignores the space at the end of each line
+		g.write(line[0:10] + "\n") # changed up here so that the program ignores the space at the end of each line
 g.close()
 f.close()
 
@@ -56,7 +53,7 @@ if g.mode == "r":
 		l = list(line)
 		print l # this is just to check to see what got captured by holder.txt
 		for i in l:
-			if (i == "r" or i == "w" or i == "x"):
+			if (i == "r" or i == "w" or i == "x" or i == "d"):
 				h.write("1")
 			elif (i == "-"):
 				h.write("0")
