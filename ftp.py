@@ -24,13 +24,13 @@ def solve(n):
 
 	ftp.quit() # gets out of the FTP
 	# get it to export to a .txt file instead of outputting to the command line --> done
-	f = open("directory.txt", "w+") # the plus at the end of w means that if the file doesn't exist, it will be created
+	f = open("thisfile.txt", "w+") # the plus at the end of w means that if the file doesn't exist, it will be created
 	for line in data:
 		f.write(line + "\n")
 	f.close() # always remember close() after using open. Needs to be done whenever modes are switched or you're done with a file.
 ################################################################################# 
 	# Read a certain segment of the string, then have an if/else statement that turns - into 0 and drwx into 1's --> done
-	f = open("directory.txt", "r")
+	f = open("thisfile.txt", "r")
 	g = open("holder.txt", "w+") # holds just the permissions -- here mostly for debugging purposes
 	if f.mode == "r":
 		for line in f:
@@ -45,12 +45,11 @@ def solve(n):
 	f.close()
 
 	g = open("holder.txt", "r")
-	h = open("numbers.txt", "w+") # here to hold our binary
+	h = open("thisfile.txt", "w") # here to hold our binary
 
 	if g.mode == "r":
 		for line in g:
 			l = list(line)
-			#print l # this is just to check to see what got captured by holder.txt
 			for i in l:
 				if (i == "r" or i == "w" or i == "x" or i == "d"):
 					h.write("1")
@@ -62,8 +61,8 @@ def solve(n):
 	h.close()
 #################################################################################
 	# decode file permissions with binary decoder --> done
-	h = open("numbers.txt", "r")
-	m = open("textfile.txt", "w+")
+	h = open("thisfile.txt", "r")
+	m = open("holder.txt", "w")
 	# I took the code from the part of my binary program where it processes 7-bits and pasted it here - Samantha Santiago
 	if h.mode == "r":
 		characters = 0
@@ -81,31 +80,19 @@ def solve(n):
 #################################################################################
 	# send decoded message to output --> done
 #################################################################################
-	# gets rid of files we created for this program. Only included for the sake of convenience (Gourd's especially)
+	# gets rid of files we created for this program.
 	# reference: https://stackoverflow.com/questions/10840533/most-pythonic-way-to-delete-a-file-which-may-not-exist
 	# for the try-except loop idea, which also handles OSError
-	# I have multiple files set up so that every step so far can be checked. Just comment out what's necessary.
-	# I will go back and make it all to just one file once it all works.
 	try:
-		os.remove("directory.txt")
+		os.remove("thisfile.txt")
 	except OSError:
 		pass
-	
 	try:
 		os.remove("holder.txt")
 	except OSError:
 		pass
-	
-	try:
-		os.remove("numbers.txt")
-	except OSError:
-		pass
-	try:
-		os.remove("textfile.txt")
-	except OSError:
-		pass
 #################################################################################
-# calls function to solve for the home directory, 7, and 10
+# calls function to solve for directories 7 and 10
 solve('~')
 solve("7")
 solve("10")
