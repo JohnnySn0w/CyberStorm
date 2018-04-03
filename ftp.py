@@ -3,7 +3,7 @@
 # Members: Alexandra Duran Chicas, Zachary Guillot, 
 # Conan Howard, Oluwatoyosi Kade, Michael Mahan, 
 # Darryl Rayborn, Jonathan Ruppel, Samantha Santiago
-# Date: 03/28/2018
+# Date: 04/02/2018
 # Program: ftp.py
 # Objective: 
 ######################################################
@@ -16,20 +16,16 @@ def solve(n):
 	# up until I introduce f.
 	ftp = ftplib.FTP("jeangourd.com")
 	ftp.login("anonymous", "") # logs in
-	ftp.chdir(n)
+	ftp.cwd(n)
 	# the print statements are mostly for show, but it also lets you know how quickly the process of logging in and out takes
 	# based on how fast it shows up
 	# I can take it out later, but for now, I'm leaving it.
-	print "\n---------------"
-	print "\nLogging in...\n"
 
 	data = []
 
 	ftp.dir(data.append) # takes directory info and adds it to data list above
 
 	ftp.quit() # gets out of the FTP
-	print "Logging out...\n"
-	print "---------------\n"
 	
 	f = open("directory.txt", "w+") # the plus at the end of w means that if the file doesn't exist, it will be created
 	for line in data:
@@ -38,7 +34,6 @@ def solve(n):
 			  # with a file.
 	# get it to export to a .txt file instead of outputting to the command line --> done
 ################################################################################# 
-
 	# Read a certain segment of the string, then have an if/else statement that turns - into 0 and drwx into 1's --> done
 	f = open("directory.txt", "r")
 	g = open("holder.txt", "w+") #identical file for now, but it will hold the parts of directory.txt that we actually need
@@ -54,7 +49,7 @@ def solve(n):
 	if g.mode == "r":
 		for line in g:
 			l = list(line)
-			print l # this is just to check to see what got captured by holder.txt
+			#print l # this is just to check to see what got captured by holder.txt
 			for i in l:
 				if (i == "r" or i == "w" or i == "x" or i == "d"):
 					h.write("1")
@@ -66,13 +61,20 @@ def solve(n):
 	h.close()
 #################################################################################
 	# decode file permissions with binary decoder
-	# still needs work - not returning correctly. However, it does count 90 total characters and ignores \n, so
-	# it's getting somewhere
+	# still needs work - not returning correctly. However, it ignores \n, so it's getting somewhere
 	h = open("numbers.txt", "r")
 	if h.mode == "r":
+		characters = 0
+		len_seven = 7
 		n = h.read()
-		print n
-		print(len(n)) # more checking.
+		#print n
+		#print(len(n)) # more checking.
+		#for line in n:
+		#	charac = ''.join(line.split()) # string of what's in the file
+		#	characters += sum(len(chara) for chara in charac) # integer needed for mod check
+		#	input_str = [charac[i:i+len_seven] for i in range(0,len(charac),len_seven)]
+		#	print ''.join([chr(int(c,base=2)) for c in input_str])
+		
 	h.close()
 #################################################################################
 # send decoded message to output
@@ -99,7 +101,6 @@ def solve(n):
 		pass
 #################################################################################
 # calls function to solve for the home directory, 7, and 10
-# I'm not sure if the number names for the directories have to be in quotes...
 solve('~')
 solve("7")
 solve("10")
