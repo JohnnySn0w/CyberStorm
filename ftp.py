@@ -3,7 +3,7 @@
 # Members: Alexandra Duran Chicas, Zachary Guillot, 
 # Conan Howard, Oluwatoyosi Kade, Michael Mahan, 
 # Darryl Rayborn, Jonathan Ruppel, Samantha Santiago
-# Date: 04/02/2018
+# Date: 04/03/2018
 # Program: ftp.py
 # Objective: 
 ######################################################
@@ -61,44 +61,50 @@ def solve(n):
 	h.close()
 #################################################################################
 	# decode file permissions with binary decoder
-	# still needs work - not returning correctly. However, it ignores \n, so it's getting somewhere
+	# still needs work - only the last directory returns an actual message. I know it has something to do with order/structure of code...
 	h = open("numbers.txt", "r")
+	m = open("textfile.txt", "a+")
 	if h.mode == "r":
 		characters = 0
 		len_seven = 7
 		n = h.read()
-		#print n
-		#print(len(n)) # more checking.
-		#for line in n:
-		#	charac = ''.join(line.split()) # string of what's in the file
-		#	characters += sum(len(chara) for chara in charac) # integer needed for mod check
-		#	input_str = [charac[i:i+len_seven] for i in range(0,len(charac),len_seven)]
-		#	print ''.join([chr(int(c,base=2)) for c in input_str])
+		print n
+		print(len(n)) # more checking.
+		charac = ''.join(n.split()) # string of what's in the file
+		characters += sum(len(chara) for chara in charac) # integer needed for mod check
+		input_str = [charac[i:i+len_seven] for i in range(0,len(charac),len_seven)]
+		lista = ''.join([chr(int(c,base=2)) for c in input_str])
+		m.write(lista)
+		print lista
 		
 	h.close()
 #################################################################################
 # send decoded message to output
-# still needs to be done
+# it can send to output, but only 1 out of 3 is correct.
 #################################################################################
 # gets rid of files we created for this program. Only included for the sake of convenience (Gourd's especially)
 # reference: https://stackoverflow.com/questions/10840533/most-pythonic-way-to-delete-a-file-which-may-not-exist
 # for the try-except loop idea,which also handles OSError
 # I have multiple files set up so that every step so far can be checked. Just comment out what's necessary.
 # I will go back and make it all to just one file once it all works.
-	try:
-		os.remove("directory.txt")
-	except OSError:
-		pass
-	
-	try:
-		os.remove("holder.txt")
-	except OSError:
-		pass
-	
-	try:
-		os.remove("numbers.txt")
-	except OSError:
-		pass
+#	try:
+#		os.remove("directory.txt")
+#	except OSError:
+#		pass
+#	
+#	try:
+#		os.remove("holder.txt")
+#	except OSError:
+#		pass
+#	
+#	try:
+#		os.remove("numbers.txt")
+#	except OSError:
+#		pass
+#	try:
+#		os.remove("textfile.txt")
+#	except OSError:
+#		pass
 #################################################################################
 # calls function to solve for the home directory, 7, and 10
 solve('~')
