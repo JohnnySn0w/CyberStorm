@@ -46,10 +46,8 @@ def solve(n):
 #################################################################################
 	# decode file permissions with binary decoder --> done
 	# I took the code from the part of my binary program where it processes 7-bits and pasted it here - Samantha Santiago
-	characters = 0
 	len_seven = 7
 	charac = ''.join(g.split()) # string of what's in the file
-	characters += sum(len(chara) for chara in charac) # integer needed for mod check
 	input_str = [charac[i:i+len_seven] for i in range(0,len(charac),len_seven)]
 	lista = ''.join([chr(int(c,base=2)) for c in input_str]) # holds decoded string
 	print lista
