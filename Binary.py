@@ -40,7 +40,7 @@ elif (characters % 8 == 0):
 elif (characters % 7 == 0):
         print "Decoded message: " + is_seven(charac)
 else:
-        break
+        print "Error: cannot decode. Input is neither 7 nor 8-bit."
 
 
         
