@@ -1,0 +1,84 @@
+//psuedocode template for steg. I was trying to figure some stuff out here. 
+
+// ./steg -(bB) -(sr) -o<val> [-i<val>] -w<val> [-h<val>]
+// ./steg -B -s -o1024 -i256 -wimage.jpg -hsecret.jpg > new.jpg
+// ./steg -B -r -o1024 -i256 -wnew.jpg > extracted.jpg
+// above is what the command line will look like
+/*
+//stuff to include libraries for certain functions, esp. math and system arguments
+
+
+int main ()
+{
+	sys.argv[3] = offset;
+	if sys.argv[1] == "-b":
+		run bit function
+	elif sys.argv[1] == "-B":
+		run byte function
+	else:
+		printf("Error: wrong mode specified.");
+}
+
+int byte()
+{
+	// check with gourd to see if maths need to be implemented...
+	if sys.argv[3] == "starts with -o":
+		o = sys.argv[3];
+	else:
+		calculate offset
+	if sys.argv[4] == "starts with -i":
+		I = interval;
+	else:
+		calculate interval
+	
+	S = sentinel; (0x0 0xff 0x0 0x0 0xff 0x0)
+	W = sys.argv[5];
+	H = sys.argv[6];
+	
+	// store
+	if sys.argv[2] == "-s":
+		i = 0;
+		while i < length(H):
+			W[o] = H[i];
+			o += I;
+			i++;
+	// retrieve
+	if sys.argv[2] == "-r":
+		// put stuff here
+}
+
+int bit()
+{
+	// check with gourd to see if maths need to be implemented...
+	if sys.argv[3] == "starts with -o":
+		o = sys.argv[3];
+	else:
+		calculate offset
+	if sys.argv[4] == "starts with -i":
+		I = interval;
+	else:
+		calculate interval
+	
+	S = sentinel; (0x0 0xff 0x0 0x0 0xff 0x0)
+	W = sys.argv[5];
+	H = sys.argv[6];
+	
+	// store
+	if sys.argv[2] == "-s":
+		i = 0;
+		j = 0;
+		while j < length(H):
+			for k = 0..7:
+				W[i] &= 11111110
+				W[i] |= ((H[j] & 10000000 >> 7))
+				H[j] <<= 1
+				i += I
+			j++
+		end while
+	 
+	 // retrieve
+	 if sys.argv[2] == "-r":
+	 	// put stuff here
+}
+
+main();
