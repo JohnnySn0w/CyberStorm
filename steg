@@ -15,19 +15,21 @@
 
 int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0};
 
-int main (int argc, char* argv[])
+void main (int argc, char* argv[])
 {
-	for (int i=1; i < argc; i++) {
-		printf("Argument: %s\n", argv[i]);
-		printf("Value in sentinel: %d\n", sentinel[i]);
-	}
-	printf("Total arguments: %d\n", argc);
-	
-	return 0;
-	
+    char args[8];
+    for (int i=0; i < argc; i++)
+		argrs[i] = char* argv[i];
+
+	if (args[1] == "-b")
+        bit(args[]);
+    else if (args[1] == "-B")
+        byte(args[]);
+    else
+	    printf("%s is not a valid meathod type.\n", args[1]);
 }
 /*
-int byte()
+void byte(char args[])
 {
 	// check with gourd to see if maths need to be implemented...
 	if sys.argv[3] == "starts with -o":
@@ -56,7 +58,7 @@ int byte()
 		// put more here
 }
 
-int bit()
+void bit(char args[])
 {
 	// check with gourd to see if maths need to be implemented...
 	if sys.argv[3] == "starts with -o":
