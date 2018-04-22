@@ -13,10 +13,13 @@
 #include <stdlib.h>
 //#include <math.h>
 
+int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0};
+
 int main (int argc, char* argv[])
 {
-	for (int i=0; i < argc; i++) {
-		printf("%s\n", argv[i]);
+	for (int i=1; i < argc; i++) {
+		printf("Argument: %s\n", argv[i]);
+		printf("Value in sentinel: %d\n", sentinel[i]);
 	}
 	printf("Total arguments: %d\n", argc);
 	
@@ -36,7 +39,7 @@ int byte()
 	else:
 		calculate interval
 	
-	S = sentinel; (0x0 0xff 0x0 0x0 0xff 0x0)
+	S = sentinel;
 	W = sys.argv[5];
 	H = sys.argv[6];
 	
