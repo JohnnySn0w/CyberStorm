@@ -4,20 +4,26 @@
 // ./steg -B -s -o1024 -i256 -wimage.jpg -hsecret.jpg > new.jpg
 // ./steg -B -r -o1024 -i256 -wnew.jpg > extracted.jpg
 // above is what the command line will look like
-/*
+
+
 //stuff to include libraries for certain functions, esp. math and system arguments and image stuff
 
-int main ()
-{
-	sys.argv[3] = offset;
-	if sys.argv[1] == "-b":
-		run bit function
-	elif sys.argv[1] == "-B":
-		run byte function
-	else:
-		printf("Error: wrong mode specified.");
-}
+//#include <iostream>
+#include <stdio.h> 
+#include <stdlib.h>
+//#include <math.h>
 
+int main (int argc, char* argv[])
+{
+	for (int i=0; i < argc; i++) {
+		printf("%s\n", argv[i]);
+	}
+	printf("Total arguments: %d\n", argc);
+	
+	return 0;
+	
+}
+/*
 int byte()
 {
 	// check with gourd to see if maths need to be implemented...
