@@ -5,8 +5,7 @@
 // ./steg -B -r -o1024 -i256 -wnew.jpg > extracted.jpg
 // above is what the command line will look like
 /*
-//stuff to include libraries for certain functions, esp. math and system arguments
-
+//stuff to include libraries for certain functions, esp. math and system arguments and image stuff
 
 int main ()
 {
@@ -44,7 +43,8 @@ int byte()
 			i++;
 	// retrieve
 	if sys.argv[2] == "-r":
-		// put stuff here
+		i = 0;
+		// put more here
 }
 
 int bit()
@@ -79,6 +79,13 @@ int bit()
 	 // retrieve
 	 if sys.argv[2] == "-r":
 	 	// put stuff here
+		i = 0;
+		j = 0;
+		while j < length(W):
+			for k = 0..7:
+				// put more here
 }
 
 main();
+
+*/
