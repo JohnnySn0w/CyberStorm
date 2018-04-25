@@ -22,10 +22,9 @@ void main (int argc, char* argv[])
 {
 	// update: not doing separate functions for bit/byte. Gonna use a lot of if statements in main. It's easier that way.
 	
-	if (argc < 6)
+	if (argc <= 6)
 	{
-		printf("Not enough arguments.\n\n");
-		//return(0);
+		printf("Note: enough arguments to retrieve, but not to store.\n\n");
 	}
 	
 	// gets offset value from command line by taking substring, converting to int
@@ -52,88 +51,87 @@ void main (int argc, char* argv[])
 	//FILE* file_wrap = fopen(wrapper, "rb+");
 	//fclose(file_wrap);
 	
-		//gets hidden file name by seeking substring beyond a certain token, coverting to FILE
-	char* hide = argv[6];
-	char *h = "-h";
-	char* hi = strtok(hide, h);
-	printf("%s\n", hi);
-	// opens file that matches char* variable above, and closes
-	//FILE* hidden = fopen(hi, "rb+");
-	//fclose(hidden);
-	
-		// store
-		if (strcmp(argv[2], "-s") == 0)
-		{
-			printf("Storage\n");
-			int i = 0;
-				
-			// will execute for byte
-			if (strcmp(argv[1], "-B") == 0) 
-			{
-				//for (int i=0; i < argc; i++)
-				//	printf("%s\n",argv[i]);
+	if (argc > 6)
+	{
+			//gets hidden file name by seeking substring beyond a certain token, coverting to FILE
+		char* hide = argv[6];
+		char *h = "-h";
+		char* hi = strtok(hide, h);
+		printf("%s\n", hi);
+		// opens file that matches char* variable above, and closes
+		//FILE* hidden = fopen(hi, "rb+");
+		//fclose(hidden);
+	}
+	// store
+	if (strcmp(argv[2], "-s") == 0)
+	{
+		printf("Storage\n");
+		int i = 0;
 
-				/*
-				while i < length(H)
-				{
-					W[o] = H[i];
-					offset += interval;
-					i++;
-				}
-
-				int i = 0;
-				while i < length(sentinel)
-				{
-					W[o] = S[i];
-					offset += interval;
-					i++
-				}
-				*/
-				printf("This will be the byte function\n");
-			}
-			//execute for bit
-			else if (strcmp(argv[1], "-b") == 0)
-			{
-				/*
-				i = 0;
-				j = 0;
-				while j < length(H):
-					for k = 0..7:
-						W[i] &= 11111110
-						W[i] |= ((H[j] & 10000000 >> 7))
-						H[j] <<= 1
-						i += I
-					j++
-				end while
-				*/
-				printf("this will be the bit function\n");
-			}
-				// if something incorrect is printed
-			else
-				printf("%s is not a valid method type.\n", argv[1]);
-		}
-		
-		// retrieve
-		else if (strcmp(argv[2], "-r") == 0)
+		// will execute for byte
+		if (strcmp(argv[1], "-B") == 0) 
 		{
-			printf("Retrieval\n");
+			/*
+			while i < length(H)
+			{
+				W[o] = H[i];
+				offset += interval;
+				i++;
+			}
+
 			int i = 0;
-			// put more here
-			// will execute for byte
-			if (strcmp(argv[1], "-B") == 0) 
+			while i < length(sentinel)
 			{
-				printf("This will be the byte function\n");
+				W[o] = S[i];
+				offset += interval;
+				i++
 			}
-			else if (strcmp(argv[1], "-b") == 0)
-			{
-				printf("this will be the bit function\n");
-			}
-			else
-				printf("%s is not a valid method type.\n", argv[1]);
+			*/
+			printf("This will be the byte function\n");
 		}
-		
+		//execute for bit
+		else if (strcmp(argv[1], "-b") == 0)
+		{
+			/*
+			i = 0;
+			j = 0;
+			while j < length(H):
+				for k = 0..7:
+					W[i] &= 11111110
+					W[i] |= ((H[j] & 10000000 >> 7))
+					H[j] <<= 1
+					i += I
+				j++
+			end while
+			*/
+			printf("this will be the bit function\n");
+		}
+			// if something incorrect is printed
 		else
-			printf("%s is not a valid method type.\n", argv[2]);
-			
-		
+			printf("%s is not a valid method type.\n", argv[1]);
+	}
+
+	// retrieve
+	else if (strcmp(argv[2], "-r") == 0)
+	{
+		printf("Retrieval\n");
+		int i = 0;
+		// put more here
+		// will execute for byte
+		if (strcmp(argv[1], "-B") == 0) 
+		{
+			printf("This will be the byte function\n");
+		}
+		else if (strcmp(argv[1], "-b") == 0)
+		{
+			printf("this will be the bit function\n");
+		}
+		else
+			printf("%s is not a valid method type.\n", argv[1]);
+	}
+
+	else
+		printf("%s is not a valid method type.\n", argv[2]);
+
+
 }
