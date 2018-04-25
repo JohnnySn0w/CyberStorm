@@ -10,55 +10,42 @@
 #include <string.h>
 
 int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0};
+int offset, interval;
 
 void main (int argc, char* argv[])
 {
-	// update: not doing separate functions for bit/byte. Gonna use a lot of if statements in main. It's easier that way.
-	
-	if (argc <= 6)
-	{
-		printf("Note: enough arguments to retrieve, but not to store.\n\n");
-	}
-	
 	// gets offset value from command line by taking substring, converting to int
-	//note: atol is for long. this is just a note to myself
 	char* num = argv[3];
 	char *to = "-o";
 	char *o = strtok(num, to);
-	int offset = atoi( o );
-
-
-	// gets interval value from command line by taking substring, converting to int
-	char* mun = argv[4];
-	char *ot = "-i";
-	char *i = strtok(mun, ot);
-	int interval = atoi( i );
-
+	offset = atoi( o );
+	num = argv[4];
+	to = "-i";
+	o = strtok(num, to);
+	interval = atoi( o );
 	
-	//gets wrapper file name by seeking substring beyond a certain token, coverting to FILE
-	char* wraps = argv[5];
-	char *w = "-w";
-	char* wrapper = strtok(wraps, w);
+	//gets wrapper file name, wrapper file allocation 
+	unsigned char* wrapper_file;
+	if (strncmp(argv[5], "-w", 2) == 0)
+    {
+		int i = 5;
+		argv[i] += 2;
+		wrapper_file = (char*)malloc(strlen(argv[i]) + 1);
+		strcpy(wrapper_file, argv[i]);
+    }
 
-	// opens file that matches char* variable above, and closes
-	FILE* file_wrap = fopen(wrapper, "rb");
+	// opens file that matches variable above, and closes
+	FILE* file_wrap = fopen(wrapper_file, "rb");
 	fseek(file_wrap, 0, SEEK_END);
 	// get size
 	long wrap_size = ftell(file_wrap);
 	fseek(file_wrap, 0, SEEK_SET);
-	// Allocate memory -- reference: https://www.linuxquestions.org/questions/programming-9/how-to-read-jpg-image-in-c-708217/
-	char* buffer_w =  (char *)malloc(wrap_size);
+	// Allocate memory/create bytearray from wrapper. make buffer -- reference: https://www.linuxquestions.org/questions/programming-9/how-to-read-jpg-image-in-c-708217/
+	unsigned char* buffer_w =  (char *)malloc(wrap_size);
 	fread(buffer_w, wrap_size, 1, file_wrap);
 	fclose(file_wrap);
 	
-	// add to bytearray
 	int i=0;
-
-    while (i < wrap_size){
-	    printf("%02X ",((unsigned char)buffer[i]);
-	    i++;
-	    if( ! (i % 16) ) printf( "\n" );
-    }
 	
 	// store
 	if (strcmp(argv[2], "-s") == 0)
@@ -70,61 +57,52 @@ void main (int argc, char* argv[])
 			printf("Cannot store - no file to hide.\n");
 			exit(0);
 		}
-		else
-			printf("Current mode: Storage\n");
 		//gets hidden file name by seeking substring beyond a certain token, coverting to FILE
-		char* hide = argv[6];
-		char *h = "-h";
-		char* hidden = strtok(hide, h);
+		unsigned char* hidden_file;
+		if (strncmp(argv[6], "-h", 2) == 0)
+		{
+			int i = 6;
+			argv[i] += 2;
+			hidden_file = (char*)malloc(strlen(argv[i]) + 1);
+			strcpy(hidden_file, argv[i]);
+		}
 
 		// opens file that matches char* variable above, and closes
-		FILE* file_hide = fopen(hidden, "rb");
+		FILE* file = fopen(hidden_file, "rb");
 		
 		// get size
-		fseek(file_hide, 0, SEEK_END);
-		long hid_size = ftell(file_hide);
+		fseek(file, 0, SEEK_END);
+		long hid_size = ftell(file);
 		
 		// put pointer back at beginning
-		fseek(file_hide, 0, SEEK_SET);
+		fseek(file, 0, SEEK_SET);
 		
 		// get header
-		char* buffer =  (char *)malloc(hid_size);
-		fread(buffer, hid_size, 1, file_hide);
-		fclose(file_hide);
+		unsigned char* buffer =  (char *)malloc(hid_size);
+		fread(buffer, hid_size, 1, file);
+		fclose(file);
 
 
 		// will execute for byte
 		if (strcmp(argv[1], "-B") == 0) 
 		{
-			/*
-			for (int i=0; i < hid_size; i++)
+			unsigned char* buffer_h =  (char *)malloc(wrap_size);
+			while (i < hid_size)
 			{
+				buffer_w[offset] = buffer_h[i];
+				offset += interval;
+				i++;
 				
 			}
-			*/
-			/*
-			int i = 0;
-			while i < length(H)
+			
+			i = 0;
+			
+			while (i < 6)
 			{
-				W[o] = H[i];
+				buffer_w[offset] = sentinel[i];
 				offset += interval;
 				i++;
 			}
-
-			int i = 0;
-			while i < length(sentinel)
-			{
-				W[o] = S[i];
-				offset += interval;
-				i++
-			}
-			*/
-			/*
-			for (int i=0; i < 6; i++)
-			{
-			}
-			*/
-			printf("This will be the byte function\n");
 		}
 		//execute for bit
 		else if (strcmp(argv[1], "-b") == 0)
@@ -162,11 +140,20 @@ void main (int argc, char* argv[])
 	else if (strcmp(argv[2], "-r") == 0)
 	{
 		int i = 0;
-		// put more here
+		unsigned char* buffer_h =  (char *)malloc(wrap_size);
 		// will execute for byte
 		if (strcmp(argv[1], "-B") == 0) 
 		{
-			printf("This will be the byte function\n");
+			while (offset < wrap_size)
+			{
+				buffer_h[i] = buffer_w[offset];
+				offset += interval;
+				i++;
+			}
+			// edits file we end up sending to
+			FILE* file = freopen(NULL, "wb", stdout);
+			fwrite(buffer_h, 1, wrap_size, file);
+			fclose(file);
 			/*
 			while not at sentinel:
 				if byte == sentinel[0]:
@@ -183,6 +170,11 @@ void main (int argc, char* argv[])
 		else if (strcmp(argv[1], "-b") == 0)
 		{
 			printf("this will be the bit function\n");
+			
+			while (offset < wrap_size)
+			{
+					
+			}
 			/*
 			while not at sentinel:
 				for (int i=0; i < 8; i++)
@@ -197,7 +189,6 @@ void main (int argc, char* argv[])
 			exit(0);
 		}
 		
-		printf("Current mode: Retrieval\n");
 	}
 
 	else
