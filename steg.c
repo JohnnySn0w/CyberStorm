@@ -5,18 +5,11 @@
 // ./steg -B -r -o1024 -i256 -wnew.jpg > extracted.jpg
 // above is what the command line will look like
 
-
-//stuff to include libraries for certain functions, esp. math and system arguments and image stuff
-
-//#include <iostream>
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
-//#include <math.h>
 
-int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0}; //these are bytes in hex representation
-char* buffer_wrap;
-char* buffer_hide;
+int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0};
 
 void main (int argc, char* argv[])
 {
@@ -33,40 +26,50 @@ void main (int argc, char* argv[])
 	char *to = "-o";
 	char *o = strtok(num, to);
 	int offset = atoi( o );
-	printf("offset: %d\n", offset);
+
 
 	// gets interval value from command line by taking substring, converting to int
 	char* mun = argv[4];
 	char *ot = "-i";
 	char *i = strtok(mun, ot);
 	int interval = atoi( i );
-	printf("interval: %d\n", interval);
+
 	
 	//gets wrapper file name by seeking substring beyond a certain token, coverting to FILE
 	char* wraps = argv[5];
 	char *w = "-w";
 	char* wrapper = strtok(wraps, w);
-	printf("%s\n", wrapper);
-	// opens file that matches char* variable above, and closes currently
-	//FILE* file_wrap = fopen(wrapper, "rb+");
+
+	// opens file that matches char* variable above, and closes
+	//FILE* file_wrap = fopen(wrapper, "rb");
+	//fseek(file_wrap, 0, SEEK_END);
+	//long wrap_size = ftell(file_wrap);
+	//fseek(file_wrap, 0, SEEK_SET);
 	//fclose(file_wrap);
 	
-	if (argc > 6)
-	{
-			//gets hidden file name by seeking substring beyond a certain token, coverting to FILE
-		char* hide = argv[6];
-		char *h = "-h";
-		char* hi = strtok(hide, h);
-		printf("%s\n", hi);
-		// opens file that matches char* variable above, and closes
-		//FILE* hidden = fopen(hi, "rb+");
-		//fclose(hidden);
-	}
 	// store
 	if (strcmp(argv[2], "-s") == 0)
 	{
-		printf("Storage\n");
 		int i = 0;
+		
+		if (argc <= 6)
+		{
+			printf("Cannot store - no file to hide.\n");
+			//exit
+		}
+		else
+			printf("Current mode: Storage\n");
+		//gets hidden file name by seeking substring beyond a certain token, coverting to FILE
+		char* hide = argv[6];
+		char *h = "-h";
+		char* hidden = strtok(hide, h);
+
+		// opens file that matches char* variable above, and closes
+		//FILE* file_hide = fopen(hidden, "rb");
+		//fseek(file_hide, 0, SEEK_END);
+		//long hid_size = ftell(file_hide);
+		//fseek(file_hide, 0, SEEK_SET);
+
 
 		// will execute for byte
 		if (strcmp(argv[1], "-B") == 0) 
@@ -109,12 +112,13 @@ void main (int argc, char* argv[])
 			// if something incorrect is printed
 		else
 			printf("%s is not a valid method type.\n", argv[1]);
+		
+		
 	}
-
+///////////////////////////////////////////////////////////////////////////////
 	// retrieve
 	else if (strcmp(argv[2], "-r") == 0)
 	{
-		printf("Retrieval\n");
 		int i = 0;
 		// put more here
 		// will execute for byte
@@ -128,10 +132,10 @@ void main (int argc, char* argv[])
 		}
 		else
 			printf("%s is not a valid method type.\n", argv[1]);
+		
+		printf("Current mode: Retrieval\n");
 	}
 
 	else
 		printf("%s is not a valid method type.\n", argv[2]);
-
-
 }
