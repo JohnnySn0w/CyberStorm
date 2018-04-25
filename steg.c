@@ -43,11 +43,22 @@ void main (int argc, char* argv[])
 	// opens file that matches char* variable above, and closes
 	FILE* file_wrap = fopen(wrapper, "rb");
 	fseek(file_wrap, 0, SEEK_END);
+	// get size
 	long wrap_size = ftell(file_wrap);
 	fseek(file_wrap, 0, SEEK_SET);
-	char* buffer_w =  (char *)malloc((wrap_size)*sizeof(char));
+	// Allocate memory -- reference: https://www.linuxquestions.org/questions/programming-9/how-to-read-jpg-image-in-c-708217/
+	char* buffer_w =  (char *)malloc(wrap_size);
 	fread(buffer_w, wrap_size, 1, file_wrap);
 	fclose(file_wrap);
+	
+	// add to bytearray
+	int i=0;
+
+    while (i < wrap_size){
+	    printf("%02X ",((unsigned char)buffer[i]);
+	    i++;
+	    if( ! (i % 16) ) printf( "\n" );
+    }
 	
 	// store
 	if (strcmp(argv[2], "-s") == 0)
@@ -68,10 +79,16 @@ void main (int argc, char* argv[])
 
 		// opens file that matches char* variable above, and closes
 		FILE* file_hide = fopen(hidden, "rb");
+		
+		// get size
 		fseek(file_hide, 0, SEEK_END);
 		long hid_size = ftell(file_hide);
+		
+		// put pointer back at beginning
 		fseek(file_hide, 0, SEEK_SET);
-		char* buffer =  (char *)malloc((hid_size)*sizeof(char));
+		
+		// get header
+		char* buffer =  (char *)malloc(hid_size);
 		fread(buffer, hid_size, 1, file_hide);
 		fclose(file_hide);
 
@@ -79,9 +96,6 @@ void main (int argc, char* argv[])
 		// will execute for byte
 		if (strcmp(argv[1], "-B") == 0) 
 		{
-			printf("%s\n",buffer);
-			printf("\n");
-			printf("%s\n", buffer_w);
 			/*
 			for (int i=0; i < hid_size; i++)
 			{
@@ -89,6 +103,7 @@ void main (int argc, char* argv[])
 			}
 			*/
 			/*
+			int i = 0;
 			while i < length(H)
 			{
 				W[o] = H[i];
@@ -102,6 +117,11 @@ void main (int argc, char* argv[])
 				W[o] = S[i];
 				offset += interval;
 				i++
+			}
+			*/
+			/*
+			for (int i=0; i < 6; i++)
+			{
 			}
 			*/
 			printf("This will be the byte function\n");
@@ -120,6 +140,11 @@ void main (int argc, char* argv[])
 					i += I
 				j++
 			end while
+			*/
+			/*
+			for (int i=0; i < 6; i++)
+			{
+			}
 			*/
 			printf("this will be the bit function\n");
 		}
@@ -142,10 +167,29 @@ void main (int argc, char* argv[])
 		if (strcmp(argv[1], "-B") == 0) 
 		{
 			printf("This will be the byte function\n");
+			/*
+			while not at sentinel:
+				if byte == sentinel[0]:
+					for (i=0; i < 5; i++;)
+					{
+						skip interval
+						have something here to reset if not matching sentinel
+					}
+				skip interval
+				keep going to EOF
+			sentinel hit; done
+			*/
 		}
 		else if (strcmp(argv[1], "-b") == 0)
 		{
 			printf("this will be the bit function\n");
+			/*
+			while not at sentinel:
+				for (int i=0; i < 8; i++)
+				{
+					
+				}
+			*/
 		}
 		else
 		{
