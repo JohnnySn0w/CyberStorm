@@ -14,7 +14,7 @@
 #include <string.h>
 //#include <math.h>
 
-int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0};
+int sentinel[] = {0x0, 0xff, 0x0, 0x0, 0xff, 0x0}; //these are bytes in hex representation
 char* buffer_wrap;
 char* buffer_hide;
 
