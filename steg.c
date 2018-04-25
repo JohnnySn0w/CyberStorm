@@ -41,11 +41,13 @@ void main (int argc, char* argv[])
 	char* wrapper = strtok(wraps, w);
 
 	// opens file that matches char* variable above, and closes
-	//FILE* file_wrap = fopen(wrapper, "rb");
-	//fseek(file_wrap, 0, SEEK_END);
-	//long wrap_size = ftell(file_wrap);
-	//fseek(file_wrap, 0, SEEK_SET);
-	//fclose(file_wrap);
+	FILE* file_wrap = fopen(wrapper, "rb");
+	fseek(file_wrap, 0, SEEK_END);
+	long wrap_size = ftell(file_wrap);
+	fseek(file_wrap, 0, SEEK_SET);
+	char* buffer_w =  (char *)malloc((wrap_size)*sizeof(char));
+	fread(buffer_w, wrap_size, 1, file_wrap);
+	fclose(file_wrap);
 	
 	// store
 	if (strcmp(argv[2], "-s") == 0)
@@ -55,7 +57,7 @@ void main (int argc, char* argv[])
 		if (argc <= 6)
 		{
 			printf("Cannot store - no file to hide.\n");
-			//exit
+			exit(0);
 		}
 		else
 			printf("Current mode: Storage\n");
@@ -65,15 +67,27 @@ void main (int argc, char* argv[])
 		char* hidden = strtok(hide, h);
 
 		// opens file that matches char* variable above, and closes
-		//FILE* file_hide = fopen(hidden, "rb");
-		//fseek(file_hide, 0, SEEK_END);
-		//long hid_size = ftell(file_hide);
-		//fseek(file_hide, 0, SEEK_SET);
+		FILE* file_hide = fopen(hidden, "rb");
+		fseek(file_hide, 0, SEEK_END);
+		long hid_size = ftell(file_hide);
+		fseek(file_hide, 0, SEEK_SET);
+		char* buffer =  (char *)malloc((hid_size)*sizeof(char));
+		fread(buffer, hid_size, 1, file_hide);
+		fclose(file_hide);
 
 
 		// will execute for byte
 		if (strcmp(argv[1], "-B") == 0) 
 		{
+			printf("%s\n",buffer);
+			printf("\n");
+			printf("%s\n", buffer_w);
+			/*
+			for (int i=0; i < hid_size; i++)
+			{
+				
+			}
+			*/
 			/*
 			while i < length(H)
 			{
@@ -111,7 +125,10 @@ void main (int argc, char* argv[])
 		}
 			// if something incorrect is printed
 		else
+		{
 			printf("%s is not a valid method type.\n", argv[1]);
+			exit(0);
+		}
 		
 		
 	}
@@ -131,11 +148,17 @@ void main (int argc, char* argv[])
 			printf("this will be the bit function\n");
 		}
 		else
+		{
 			printf("%s is not a valid method type.\n", argv[1]);
+			exit(0);
+		}
 		
 		printf("Current mode: Retrieval\n");
 	}
 
 	else
+	{
 		printf("%s is not a valid method type.\n", argv[2]);
+		exit(0);
+	}
 }
