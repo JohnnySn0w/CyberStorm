@@ -3,47 +3,30 @@
 # Members: Alexandra Duran Chicas, Zachary Guillot, 
 # Conan Howard, Oluwatoyosi Kade, Michael Mahan, 
 # Darryl Rayborn, Jonathan Ruppel, Samantha Santiago
-# Date: 04/14/2018
+# Date: 04/17/2018
 # Program: xor.py
 # Objective: Read plaintext/ciphertext from stdin, XOR
 # it with the bits of a key file, and send output to 
-# stdout.
+# stdout or to a file.
 ######################################################
 
-# take message of size b bytes
-# take key of size b bytes
-# each bit of message is XOR'd with each bit of key
-# XOR: where if either message or key has 1, then resulting output is 1; otherwise 0
-# plain/cipher and key must be the same byte size; otherwise, cycle it
-
-# things to do:
-
-# import sys commands --> done
 import sys
-from itertools import cycle # reference: https://docs.python.org/2/library/itertools.html
+from itertools import cycle # reference: https://docs.python.org/2/library/itertools.html (in case key is ever shorter than input, included as a "just in case" thing)
+characters = '' #create blank list for the characters in the file
 
-# read plain/ciphertext from stdin
 for line in sys.stdin:
-	characters = ''.join(line.split())
-	#print characters
+	characters += ''.join(line) # read plain/ciphertext from stdin
+characters.split()
 
-k = open("key", "r")
-key = ''.join(k.readlines())
-#print key
-k.close()
+k = open("key", "r") # opens file in read mode
+key = ''.join(k.read()) # creates the list key from contents of file
+key.split()
+k.close() 
 
-
-
-
-# convert contents of message and key to stream of bits
-# XOR the shit out of it
-# convert back to characters
 def xor(message, key):
-	# used ^ on converted characters (converted to characters based on unicode of xor'd bytes)
-	# string to hold encrypted/decrypted
-	cryp = ''.join(chr(ord(a) ^ ord(b)) for (a,b) in zip(message, cycle(key)))
-	print cryp
-
-
-xor(characters, key)
-
+	# used ^ on converted characters (sicne this is bitwise XOR operator)
+	# one-liner: convert message and key into ASCII/binary, XOR them, and add the characters to a new blank list
+	crypto = ''.join(chr(ord(a) ^ ord(b)) for (a,b) in zip(message, cycle(key)))
+	print crypto # string to hold encrypted/decrypted text
+	
+xor(characters, key) # execute function
