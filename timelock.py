@@ -39,7 +39,7 @@ epoch_time = datetime.utcfromtimestamp(time.mktime(datetime(int(epoch[0]), int(e
 now = datetime.utcnow().replace(microsecond=0)
 
 #calculate time elapsed by subtracting epoch time from current then convert to POSIX
-delta_time = (now - epoch_time).total_seconds()
+delta_time = int((now - epoch_time).total_seconds())
 
 #change time elapsed such that each new code is valid for 60 seconds
 interval = delta_time % 60
